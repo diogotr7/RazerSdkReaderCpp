@@ -10,4 +10,5 @@ add_executable(RazerSdkReaderCpp main.cpp
         ChromaAppData.hpp
         MemoryMappedFileReader.hpp
         SignaledReader.hpp
-        ChromaReader.hpp)
+        ChromaReader.hpp
+        Constants.h)
