@@ -1,8 +1,5 @@
-
-src/cmake-build-debug/
-
 src/.idea/
-
-src/console/console_output/
-
-src/lib/lib_output/
+src/cmake-build-debug/
+src/cmake-build-release/
+src/console/output/
+src/lib/output/
