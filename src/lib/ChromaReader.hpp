@@ -4,7 +4,7 @@
 #include "ChromaKeyboard.hpp"
 #include "ChromaAppData.hpp"
 #include "ChromaMutex.hpp"
-#include "Constants.h"
+#include "Constants.hpp"
 
 struct ChromaReader {
     ChromaMutex mutex;

@@ -3,7 +3,7 @@
 #include <queue>
 
 #include "ChromaReader.hpp"
-#include "Constants.h"
+#include "Constants.hpp"
 
 struct ChromaMutex {
     std::queue<HANDLE> _mutexes;

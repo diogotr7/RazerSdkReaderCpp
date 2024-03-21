@@ -2,3 +2,7 @@
 src/cmake-build-debug/
 
 src/.idea/
+
+src/console/console_output/
+
+src/lib/lib_output/
