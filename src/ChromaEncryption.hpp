@@ -1,14 +1,19 @@
 ﻿#ifndef CHROMAENCRYPTION
 #define CHROMAENCRYPTION
 #include <cstdint>
-#include <vector>
-#include <experimental/simd>
 #include "ChromaCommon.hpp"
 
-struct ChromaEncryption {
+
+namespace ChromaEncryption {
+
+    static bool _init;
     static uint8_t Key[128];
 
-    ChromaEncryption() {
+    static void init() {
+        if (_init) {
+            return;
+        }
+
         const uint8_t originalKey[] = {
             0x45, 0x86, 0x56, 0x02, 0x34, 0x86, 0x27, 0xF6, 0xD6, 0x16, 0x02, 0x75,
             0xF6, 0x27, 0xB6, 0x37, 0x86, 0xF6, 0x07, 0x02, 0x96, 0x37, 0x02, 0x97,
@@ -68,21 +73,26 @@ struct ChromaEncryption {
 
             Key[i] = (r << 24) | (g << 16) | (b << 8) | a;
         }
+
+        _init = true;
     }
 
     static ChromaColor Decrypt(ChromaColor color, const uint64_t timestamp) {
+        init();
         const uint32_t key = Key[timestamp % 128];
         const uint32_t colorAsInt = *reinterpret_cast<uint32_t *>(&color);
         uint32_t xora = colorAsInt ^ key | 0xFF000000;
         return *reinterpret_cast<ChromaColor *>(&xora);
     }
 
-    static void Decrypt(std::vector<ChromaColor> input, std::vector<ChromaColor> output,
+    static void Decrypt(const ChromaColor *input,
+                        ChromaColor *output,
+                        const size_t size,
                         const uint64_t timestamp) {
-        const uint32_t smallest = std::min(input.size(), output.size());
+        init();
         const uint32_t key = Key[timestamp % 128];
-        for (uint32_t i = 0; i < smallest; i++) {
-            const uint32_t colorAsInt = *reinterpret_cast<uint32_t *>(&input[i]);
+        for (uint32_t i = 0; i < size; i++) {
+            const uint32_t colorAsInt = *reinterpret_cast<const uint32_t *>(&input[i]);
             uint32_t xora = colorAsInt ^ key | 0xFF000000;
             output[i] = *reinterpret_cast<ChromaColor *>(&xora);
         }

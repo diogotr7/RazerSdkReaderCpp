@@ -19,10 +19,9 @@ public:
     explicit SignaledReader(const std::string &memoryMappedFileName, const std::string &eventWaitHandleName,
                             std::function<void(T)> updated) : reader(memoryMappedFileName) {
         Updated = updated;
-        auto access = 2031619u;
-        event = OpenEventA(2031619u, FALSE, eventWaitHandleName.c_str());
+        event = OpenEvent(EVENT_ALL_ACCESS, FALSE, eventWaitHandleName.c_str());
         if (event == nullptr) {
-            event = CreateEventA(nullptr, FALSE, FALSE, eventWaitHandleName.c_str());
+            event = CreateEvent(nullptr, FALSE, FALSE, eventWaitHandleName.c_str());
             if (event == nullptr) {
                 throw std::runtime_error("Failed to create event");
             }
@@ -34,8 +33,8 @@ public:
     }
 
     void ThreadRun() {
-        auto data = reader.data;
-        Updated(*data);
+        //auto data = reader.data;
+        //Updated(*data);
         
         if (!ResetEvent(event)) {
             throw std::runtime_error("Failed to reset event");
@@ -43,11 +42,13 @@ public:
         
         while (isRunning) {
             //todo: cancel this wait somehow when the program is closing
+            std::cout << "Waiting for event " << typeid(T).name() << std::endl;
             if (auto result = WaitForSingleObject(event, INFINITE); result != WAIT_OBJECT_0) {
+                std::cerr << "WaitForSingleObject failed: " << result << std::endl;
                 throw std::runtime_error("Failed to wait for event");
             }
             
-            std::cout << "SignaledReader event" << std::endl;
+            std::cout << "SignaledReader event "<< typeid(T).name() << std::endl;
 
             //fire off
             auto data = reader.data;

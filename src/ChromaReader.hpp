@@ -3,9 +3,12 @@
 #include "SignaledReader.hpp"
 #include "ChromaKeyboard.hpp"
 #include "ChromaAppData.hpp"
+#include "ChromaMutex.hpp"
 #include "Constants.h"
 
 struct ChromaReader {
+    ChromaMutex mutex;
+    
     SignaledReader<ChromaKeyboard> keyboardReader;
     SignaledReader<ChromaAppData> appDataReader;
 
@@ -23,7 +26,8 @@ struct ChromaReader {
     }
 
     static void handleChromaKeyboard(const ChromaKeyboard &keyboard) {
-        std::wcout << keyboard.WriteIndex << std::endl;
+        const auto [R, G, B, _] = keyboard.GetColor(0);
+        std::wcout << "Color: " << L"R:" << R << L" G:" << G << L" B:" << B << std::endl;
     }
 };
 

@@ -34,5 +34,11 @@ namespace Constants {
     const std::string AppDataFileName = "Global\\{D4E1A960-872F-4BF8-B09A-9E54F646D7CE}";
     const size_t AppDataSize = 26932u;
     const std::string AppDataWaitHandle = "Global\\{190E28CB-BB73-46B1-8FFD-62FF0EE273A0}";
+
+    const std::string SynapseOnlineMutex = "Global\\{08B4F43A-DA51-4120-B388-CE0F8CE6F61A}";
+    const std::string SynapseEvent = "Global\\{89811F96-91C2-4C19-8E0A-54469F491550}";
+    const std::string OldSynapseOnlineMutex = "Global\\{B1570C3F-8B14-45B0-BCEB-C57ED1F5C589}";
+    const std::string OldSynapseVersionMutex = "Global\\{D7B0F094-74E7-4055-BE84-F447B722DEB7}";
+    const std::string ChromaEmulatorMutex = "Global\\{5606D98C-C0DC-43E1-9A14-D992B52750F7}";
 }
 #endif
