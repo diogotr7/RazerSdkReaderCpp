@@ -3,8 +3,11 @@
 #include <algorithm>
 #include <cstdint>
 
-inline int32_t ToReadIndex(const uint32_t writeIndex) {
-    return static_cast<int32_t>(std::max(9u, writeIndex - 1));
+inline size_t ToReadIndex(const uint32_t writeIndex) {
+    if (writeIndex == 0) {
+        return 9;
+    }
+    return writeIndex - 1;
 }
 
 #endif

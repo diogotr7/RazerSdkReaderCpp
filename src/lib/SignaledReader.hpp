@@ -38,14 +38,14 @@ public:
     }
 
     void ThreadRun() {
-        HANDLE events[2] = {event, exitEvent};
+        const HANDLE events[2] = {event, exitEvent};
         
         if (!ResetEvent(event)) {
             throw std::runtime_error("Failed to reset event");
         }
         
         while (isRunning) {
-            DWORD result = WaitForMultipleObjects(2, events, FALSE, INFINITE);
+            const DWORD result = WaitForMultipleObjects(2, events, FALSE, INFINITE);
             if (result == WAIT_OBJECT_0) {
                 std::cout << "SignaledReader event "<< typeid(T).name() << std::endl;
 
